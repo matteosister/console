@@ -1,9 +1,10 @@
-defmodule Mix.Tasks.Console do
+defmodule Mix.Tasks.Console.Test do
   use Console.Command
 
   @shortdoc "test command"
 
   command do
-    arg :file, :string
+    switch :file, :string, alias: :f
+    switch :flag, :boolean
   end
 end

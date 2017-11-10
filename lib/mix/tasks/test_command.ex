@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Console.Test do
   @shortdoc "test command"
 
   command do
-    switch :file, :string, alias: :f
+    switch :file, :string, alias: :f, desc: "file path"
     switch :flag, :boolean
   end
 end

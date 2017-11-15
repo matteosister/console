@@ -13,18 +13,22 @@ defmodule Console.Command do
       @before_compile unquote(__MODULE__)
 
       def run(args) do
-        IO.inspect(parse_opts())
+        shortdoc =
+          case List.keyfind(__MODULE__.__info__(:attributes), :shortdoc, 0) do
+            {:shortdoc, [shortdoc]} -> shortdoc
+            _ -> nil
+          end
 
         args
         |> OptionParser.parse(parse_opts())
-        |> Console.Command.maybe_output_help(config())
+        |> Console.Command.maybe_output_help(config(), shortdoc)
       end
     end
   end
 
-  def maybe_output_help({parsed, _, errors}, config) do
+  def maybe_output_help({parsed, _, errors}, config, shortdoc) do
     if Keyword.has_key?(parsed, :help) || Keyword.has_key?(errors, :help) do
-      do_output_help(config)
+      Console.Help.output(config, shortdoc)
       System.halt()
     end
   end
